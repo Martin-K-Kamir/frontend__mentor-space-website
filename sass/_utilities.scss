@@ -1,0 +1,386 @@
+.flex {
+	display : flex;
+	gap     : var(--gap, 1rem);
+}
+
+.grid {
+	display : grid;
+	gap     : var(--gap, 1rem);
+}
+
+.block {
+	display : block;
+}
+
+.flow {
+	& > *:where(:not(:first-child)) {
+		margin-top : var(--flow-space, 1rem);
+	}
+
+	&--space-small {
+		--flow-space : .75rem;
+	}
+}
+
+
+.container {
+	padding-inline : 2em;
+	margin-inline  : auto;
+	max-width      : 80rem;
+}
+
+.grid-container {
+	--container-gap : #{$size-5};
+
+	display         : grid;
+	place-items     : center;
+	text-align      : center;
+	padding-inline  : 1rem;
+	padding-bottom  : 4rem;
+
+	&--destination {
+		--flow-space        : 2rem;
+
+		grid-template-areas :
+			'title'
+	        'image'
+	        'tabs'
+	        'content';
+
+		@include breakpoint(min, 45em) {
+			justify-items       : start;
+			align-content       : start;
+			grid-template-areas :
+				'. title title .'
+		        '. image tabs .'
+		        '. image content .';
+		}
+
+		.numbered-title {
+			grid-area : title;
+
+			@include breakpoint(min, 35em) {
+				justify-self : start;
+				margin-top   : 2rem;
+			}
+		}
+
+		picture {
+			grid-area  : image;
+			max-width  : 60%;
+			align-self : start;
+
+			@include breakpoint(min, 45em) {
+				max-width : 100%;
+			}
+		}
+
+		.tab-list {
+			grid-area : tabs;
+		}
+
+		.destination-info {
+			grid-area : content;
+		}
+	}
+
+	&--crew {
+		--flow-space        : 2rem;
+		grid-template-areas :
+	        'title'
+	        'image'
+	        'tabs'
+	        'content';
+
+		@include breakpoint(min, 35em) {
+			padding-bottom      : 0;
+			grid-template-areas :
+	            'title'
+	            'content'
+	            'tabs'
+	            'image';
+		}
+
+		@include breakpoint(min, 45em) {
+			grid-template-areas :
+	            '. title title .'
+	            '. content image .'
+	            '. tabs image .';
+		}
+
+		picture {
+			grid-area     : image;
+			max-width     : 60%;
+			border-bottom : 1px solid hsl(var(--clr-white) / .1);
+
+			@include breakpoint(min, 45em) {
+				max-width : 90%;
+			}
+		}
+
+		.numbered-title {
+			grid-area : title;
+
+			@include breakpoint(min, 35em) {
+				margin-top : 2rem;
+			}
+
+			@include breakpoint(min, 45em) {
+				justify-self : start;
+			}
+		}
+
+		.dot-indicators {
+			grid-area : tabs;
+
+			@include breakpoint(min, 45em) {
+				justify-self : start;
+			}
+		}
+
+		.crew-details {
+			grid-area : content;
+
+			@include breakpoint(min, 45em) {
+				justify-self : start;
+			}
+
+			h2 {
+				color : hsl(var(--clr-white) / .5);
+			}
+		}
+	}
+
+	&--technology {
+		overflow            : hidden;
+		grid-template-areas :
+	            ' title '
+	            ' image '
+	            ' content ';
+
+		@include breakpoint(min, 35em) {
+			--flow-space : 3rem;
+		}
+
+		@include breakpoint(min, 45em) {
+			grid-template-areas :
+	            '. title title .'
+	            '. content image image'
+	            '. content image image';
+		}
+
+		picture {
+			align-self : start;
+			grid-area  : image;
+			width      : 110%;
+			height     : 30vh;
+
+			@include breakpoint(min, 45em) {
+				height       : 70vh;
+				margin       : 0;
+				justify-self : end;
+				width        : 85%;
+			}
+
+			img {
+				object-fit : cover;
+				height     : 100%;
+				width      : 100%;
+			}
+		}
+
+		.numbered-title {
+			grid-area : title;
+
+			@include breakpoint(min, 35em) {
+				margin-top   : 2rem;
+				justify-self : start;
+			}
+		}
+
+		.number-indicators {
+			justify-content : center;
+
+			@include breakpoint(min, 45em) {
+				flex-direction : column;
+			}
+		}
+
+		.technology-details {
+			--gap          : 2rem;
+			grid-area      : content;
+			flex-direction : column;
+			align-self     : start;
+
+			@include breakpoint(min, 35em) {
+				--gap : 3rem;
+			}
+
+			@include breakpoint(min, 45em) {
+				--gap          : 4rem;
+				align-self     : center;
+				justify-self   : start;
+				flex-direction : row;
+			}
+		}
+	}
+
+	p:not([class]) {
+		max-width : $size-content-3;
+	}
+
+	@include breakpoint(min, 45rem) {
+		padding-inline        : 0;
+		text-align            : left;
+		column-gap            : var(--container-gap);
+		grid-template-columns : minmax(var(--container-gap), 1fr) repeat(2, minmax(0, 40rem)) minmax(var(--container-gap), 1fr);
+
+		&--home {
+			padding-bottom : max(6rem, 20vh);
+			align-items    : end;
+
+			& > *:first-child {
+				grid-column : 2;
+			}
+
+			& > *:last-child {
+				grid-column : 3;
+			}
+		}
+	}
+}
+
+.sr-only {
+	position    : absolute;
+	width       : 1px;
+	height      : 1px;
+	padding     : 0;
+	margin      : -1px;
+	overflow    : hidden;
+	clip        : rect(0, 0, 0, 0);
+	white-space : nowrap; /* added line */
+	border      : 0;
+}
+
+.skip-to-content {
+	position      : absolute;
+	z-index       : 9999;
+	background    : hsl(var(--clr-white));
+	color         : hsl(var(--clr-dark));
+	padding       : .5em 1em;
+	margin-inline : auto;
+	transform     : translateY(-110%);
+	transition    : transform 250ms ease-in;
+
+	&:focus {
+		transform : translateY(0);
+	}
+}
+
+/* colors */
+
+.bg-dark {
+	background-color : hsl(var(--clr-dark));
+}
+
+.bg-accent {
+	background-color : hsl(var(--clr-light));
+}
+
+.bg-white {
+	background-color : hsl(var(--clr-white));
+}
+
+.text-dark {
+	color : hsl(var(--clr-dark));
+}
+
+.text-accent {
+	color : hsl(var(--clr-light));
+}
+
+.text-white {
+	color : hsl(var(--clr-white));
+}
+
+/* typography */
+
+.ff-serif {
+	font-family : var(--ff-serif);
+}
+
+.ff-sans-cond {
+	font-family : var(--ff-sans-cond);
+}
+
+.ff-sans-normal {
+	font-family : var(--ff-sans-normal);
+}
+
+.letter-spacing-1 {
+	letter-spacing : 4.75px;
+}
+
+.letter-spacing-2 {
+	letter-spacing : 2.7px;
+}
+
+.letter-spacing-3 {
+	letter-spacing : 2.35px;
+}
+
+.uppercase {
+	text-transform : uppercase;
+}
+
+.fs-900 {
+	font-size : var(--fs-900);
+}
+
+.fs-800 {
+	font-size : var(--fs-800);
+}
+
+.fs-700 {
+	font-size : var(--fs-700);
+}
+
+.fs-600 {
+	font-size : var(--fs-600);
+}
+
+.fs-500 {
+	font-size : var(--fs-500);
+}
+
+.fs-400 {
+	font-size : var(--fs-400);
+}
+
+.fs-300 {
+	font-size : var(--fs-300);
+}
+
+.fs-200 {
+	font-size : var(--fs-200);
+}
+
+.fs-900,
+.fs-800,
+.fs-700,
+.fs-600 {
+	line-height : 1.1;
+}
+
+.numbered-title {
+	font-family    : var(--ff-sans-cond);
+	font-size      : var(--fs-500);
+	text-transform : uppercase;
+	letter-spacing : 4.72px;
+}
+
+.numbered-title span {
+	margin-right : .5em;
+	font-weight  : 700;
+	color        : hsl(var(--clr-white) / .25);
+}

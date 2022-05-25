@@ -1,0 +1,248 @@
+
+.large-button {
+	font-size       : 2rem;
+	position        : relative;
+	z-index         : 1;
+	display         : inline-grid;
+	place-items     : center;
+	padding         : 0 2em;
+	border-radius   : 50%;
+	aspect-ratio    : 1;
+	text-decoration : none;
+}
+
+.large-button::after {
+	content       : '';
+	position      : absolute;
+	z-index       : -1;
+	width         : 100%;
+	height        : 100%;
+	background    : hsl(var(--clr-white) / .1);
+	border-radius : 50%;
+	opacity       : 0;
+	transition    : opacity 500ms linear, transform 750ms ease-in-out;
+}
+
+.large-button:hover::after,
+.large-button:focus::after {
+	opacity   : 1;
+	transform : scale(1.5);
+}
+
+.primary-navigation {
+	--gap            : clamp(1.5rem, 5vw, 3.5rem);
+	--underline-gap  : 2rem;
+
+	list-style       : none;
+	margin           : 0;
+	padding          : 0;
+	background-color : hsl(var(--clr-dark) / 0.95);
+
+	@supports (backdrop-filter: blur(2rem)) {
+		background-color : hsl(var(--clr-white) / 0.05);
+		backdrop-filter  : blur(2.5rem);
+	}
+
+	@include breakpoint(max, 35rem) {
+		--underline-gap : 0.5rem;
+
+		position        : fixed;
+		inset           : 0 0 0 30%;
+		z-index         : 1000;
+		padding         : min(20rem, 10vh) 2rem;
+		flex-direction  : column;
+		transform       : translate(100%);
+		transition      : transform 0.5s ease-in-out;
+	}
+
+	@include breakpoint(between, 35em 45em) {
+		padding-inline : 3rem;
+	}
+
+	@include breakpoint(min, 35em) {
+		padding-inline : clamp(3rem, 5vw, 7rem);
+	}
+
+	@include breakpoint(min, 45em) {
+		position     : relative;
+		margin-block : 2rem;
+	}
+
+	&[data-visible="true"] {
+		@include breakpoint(max, 35rem) {
+			transform : translate(0);
+		}
+	}
+
+	.underline-indicators > .active {
+		@include breakpoint(max, 35rem) {
+			border : 0;
+		}
+	}
+
+	a {
+		text-decoration : none;
+	}
+
+	a > span {
+		font-weight  : 700;
+		margin-right : .5em;
+
+		@include breakpoint(between, 35em 44.9999em) {
+			display : none;
+		}
+	}
+}
+
+
+.mobile-nav-toggle {
+	display : none;
+
+	@include breakpoint(max, 35rem) {
+		cursor              : pointer;
+		display             : block;
+		position            : absolute;
+		z-index             : 2000;
+		right               : 1rem;
+		top                 : 2rem;
+		border              : 0;
+		background-color    : transparent;
+		background-image    : url(../assets/shared/icon-hamburger.svg);
+		background-repeat   : no-repeat;
+		background-position : center;
+		width               : 1.5rem;
+		aspect-ratio        : 1;
+	}
+
+	&:focus-visible {
+		outline        : 5px solid white;
+		outline-offset : 5px;
+	}
+
+	&[data-expanded="true"] {
+		@include breakpoint(max, 35rem) {
+			background-image : url(../assets/shared/icon-close.svg);
+		}
+	}
+}
+
+.logo {
+	margin : 1.5rem clamp(1.5rem, 5vw, 3.5rem);
+}
+
+
+nav {
+	@include breakpoint(min, 45em) {
+		order : 2;
+	}
+}
+
+.primary-header {
+	justify-content : space-between;
+	align-items     : center;
+
+	@include breakpoint(min, 45em) {
+		position : relative;
+	}
+
+	&::before {
+		@include breakpoint(min, 45em) {
+			content      : '';
+			z-index      : 5;
+			display      : block;
+			position     : relative;
+			height       : 1px;
+			width        : 100%;
+			margin-right : -3rem;
+			background   : hsl(var(--clr-white) / .25);
+			order        : 1;
+		}
+	}
+}
+
+.underline-indicators > * {
+	cursor           : pointer;
+	padding          : var(--underline-gap, 0.5rem) 0;
+	border           : 0;
+	border-bottom    : .2rem solid hsl(var(--clr-white) / 0);
+	background-color : transparent;
+}
+
+.underline-indicators > *:hover,
+.underline-indicators > *:focus {
+	border-color : hsl(var(--clr-white) / .5);
+}
+
+.underline-indicators > .active,
+.underline-indicators > [aria-selected="true"] {
+	color        : hsl(var(--clr-white) / 1);
+	border-color : hsl(var(--clr-white) / 1);
+}
+
+.tab-list {
+	--gap : 2rem;
+}
+
+.dot-indicators > * {
+	cursor           : pointer;
+	border           : 0;
+	border-radius    : 50%;
+	padding          : .5em;
+	background-color : hsl(var(--clr-white) / .25);
+}
+
+.dot-indicators > *:hover,
+.dot-indicators > *:focus {
+	background-color : hsl(var(--clr-white) / .5);
+}
+
+.dot-indicators > [aria-selected="true"] {
+	background-color : hsl(var(--clr-white) / 1);
+}
+
+.destination-meta {
+	flex-direction : column;
+	border-top     : 1px solid hsl(var(--clr-white) / .1);
+	padding-top    : 2.5rem;
+	margin-top     : 2.5rem;
+
+	@include breakpoint(min, 35em) {
+		flex-direction  : row;
+		justify-content : space-evenly;
+	}
+
+	@include breakpoint(min, 45em) {
+		--gap           : min(6vw, 6rem);
+
+		justify-content : start;
+	}
+
+	p {
+		font-size : 1.75rem;
+	}
+}
+
+.number-indicators {
+	--gap : 2rem;
+}
+
+.number-indicators > * {
+	cursor           : pointer;
+	border-radius    : 50%;
+	width            : 2.2em;
+	aspect-ratio     : 1;
+	font-size        : var(--fs-600);
+	color            : hsl(var(--clr-white));
+	background-color : transparent;
+	border           : 1px solid hsl(var(--clr-white) / .25);
+}
+
+.number-indicators > *:hover,
+.number-indicators > *:focus {
+	border-color : hsl(var(--clr-white) / .8);
+}
+
+.number-indicators > [aria-selected="true"] {
+	background-color : hsl(var(--clr-white) / 1);
+	color            : hsl(var(--clr-dark));
+}
